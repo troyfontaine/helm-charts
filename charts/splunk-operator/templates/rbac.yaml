@@ -6,7 +6,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   creationTimestamp: null
-  name: splunk:operator:namespace-manager
+  name: splunk-namespace-manager
   labels:
     app.kubernetes.io/name: {{ template "splunk-operator.name" . }}
     helm.sh/chart: {{ template "splunk-operator.chart" . }}
