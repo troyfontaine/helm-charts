@@ -2,7 +2,7 @@
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: splunk:operator:namespace-manager
+  name: splunk-namespace-manager
   labels:
     app.kubernetes.io/name: {{ template "splunk-operator.name" . }}
     helm.sh/chart: {{ template "splunk-operator.chart" . }}
@@ -14,5 +14,5 @@ subjects:
   name: splunk-operator
 roleRef:
   kind: Role
-  name: splunk:operator:namespace-manager
+  name: splunk-namespace-manager
   apiGroup: rbac.authorization.k8s.io
