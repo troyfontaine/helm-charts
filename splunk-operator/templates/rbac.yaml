@@ -1,0 +1,71 @@
+{{/*
+    Do not modify this file
+*/}}
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  creationTimestamp: null
+  name: splunk:operator:namespace-manager
+  labels:
+    app.kubernetes.io/name: {{ template "splunk-operator.name" . }}
+    helm.sh/chart: {{ template "splunk-operator.chart" . }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - services
+  - endpoints
+  - persistentvolumeclaims
+  - configmaps
+  - secrets
+  - pods
+  - pods/exec
+  - serviceaccounts
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - daemonsets
+  - replicasets
+  - statefulsets
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - enterprise.splunk.com
+  resources:
+  - '*'
+  - indexerclusters
+  - clustermasters
+  - licensemasters
+  - searchheadclusters
+  - standalones
+  verbs:
+  - '*'

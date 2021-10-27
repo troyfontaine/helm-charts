@@ -1,0 +1,25 @@
+---
+replicaCount: 1
+operator:
+  image:
+    repository: docker.io/splunk/splunk-operator
+    pullPolicy: IfNotPresent
+    tag: "{{ .Chart.AppVersion }}"
+    nodeSelector: {}
+    affinity: {}
+    tolerations: {}
+    resources: {}
+    extraEnvs: []
+
+deployment:
+  image:
+    repository: docker.io/splunk/splunk
+    pullPolicy: IfNotPresent
+    tag: "8.2.2"
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  name: "splunk-operator"

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: splunk-operator
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ template "splunk-operator.name" . }}
+    helm.sh/chart: {{ template "splunk-operator.chart" . }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    {{- if .Values.operator.extraLabels }}
+{{ toYaml .Values.operator.extraLabels | indent 4 }}
+    {{- end }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: splunk-operator
+  template:
+    metadata:
+      labels:
+        name: splunk-operator
+    spec:
+      serviceAccountName: splunk-operator
+      containers:
+      - name: splunk-operator
+        image: "{{ .Values.operator.image.repository }}:{{ tpl .Values.operator.image.tag . }}"
+        imagePullPolicy: {{ .Values.operator.image.pullPolicy }}
+        env:
+        - name: WATCH_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: OPERATOR_NAME
+          value: "splunk-operator"
+        - name: RELATED_IMAGE_SPLUNK_ENTERPRISE
+          value: "{{ .Values.deployment.image.repository }}:{{ tpl .Values.deployment.image.tag . }}"
+        {{- if .Values.operator.extraEnvs -}}
+        {{- toYaml .Values.operator.extraEnvs | nindent 10 }}
+        {{- end }}
+        resources:
+          {{- toYaml .Values.operator.resources | nindent 12 }}
+    {{- with .Values.operator.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.operator.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.operator.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
