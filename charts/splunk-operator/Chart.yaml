@@ -14,5 +14,5 @@ sources:
 - https://github.com/splunk/splunk-operator
 - https://www.splunk.com
 maintainers:
-- name: Troy Fontaine
+- name: troyfontaine
   email: tfontaine@troyfontaine.com
