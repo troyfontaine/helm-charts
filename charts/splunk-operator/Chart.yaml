@@ -4,3 +4,13 @@ description: A Helm chart for deploying the Splunk Operator
 type: application
 version: 0.1.0
 appVersion: "1.0.3"
+keywords:
+- splunk
+- operator
+home: https://splunk.github.io/splunk-operator/
+sources:
+- https://github.com/splunk/splunk-operator
+- https://www.splunk.com
+maintainers:
+- name: Troy Fontaine
+  email: tfontaine@troyfontaine.com
