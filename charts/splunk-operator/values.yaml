@@ -1,5 +1,7 @@
 ---
-replicaCount: 1
+# Specify the container image and tag
+# to use for the actual operator pod
+# only used for the splunk-operator
 operator:
   image:
     repository: docker.io/splunk/splunk-operator
@@ -10,8 +12,12 @@ operator:
     tolerations: {}
     resources: {}
     extraEnvs: []
+    replicaCount: 1
 
-deployment:
+# Specify the container image and tag
+# to use for the non-operator based pods
+# used for all roles except the operator
+pods:
   image:
     repository: docker.io/splunk/splunk
     pullPolicy: IfNotPresent

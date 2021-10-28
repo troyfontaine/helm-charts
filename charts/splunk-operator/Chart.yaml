@@ -2,10 +2,11 @@ apiVersion: v2
 name: splunk-operator
 description: A Helm chart for deploying the Splunk Operator
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "1.0.3"
 kubeVersion: ">=1.20.0-0"
 engine: gotpl
+icon: https://upload.wikimedia.org/wikipedia/commons/f/f8/Splunk_logo.png
 keywords:
 - splunk
 - operator
