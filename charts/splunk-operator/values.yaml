@@ -3,16 +3,16 @@
 # to use for the actual operator pod
 # only used for the splunk-operator
 operator:
+  replicaCount: 1
   image:
     repository: docker.io/splunk/splunk-operator
     pullPolicy: IfNotPresent
     tag: "{{ .Chart.AppVersion }}"
-    nodeSelector: {}
-    affinity: {}
-    tolerations: {}
-    resources: {}
-    extraEnvs: []
-    replicaCount: 1
+  nodeSelector: {}
+  affinity: {}
+  tolerations: {}
+  resources: {}
+  extraEnvs: []
 
 # Specify the container image and tag
 # to use for the non-operator based pods

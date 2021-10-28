@@ -13,7 +13,7 @@ metadata:
 {{ toYaml .Values.operator.extraLabels | indent 4 }}
     {{- end }}
 spec:
-  replicas: {{ .Values.operator.image.pullPolicy }}
+  replicas: {{ .Values.operator.replicaCount }}
   selector:
     matchLabels:
       name: splunk-operator
