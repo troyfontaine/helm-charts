@@ -13,7 +13,7 @@ metadata:
 {{ toYaml .Values.operator.extraLabels | indent 4 }}
     {{- end }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.operator.replicaCount }}
   selector:
     matchLabels:
       name: splunk-operator
@@ -39,7 +39,7 @@ spec:
         - name: OPERATOR_NAME
           value: "splunk-operator"
         - name: RELATED_IMAGE_SPLUNK_ENTERPRISE
-          value: "{{ .Values.deployment.image.repository }}:{{ tpl .Values.deployment.image.tag . }}"
+          value: "{{ .Values.pods.image.repository }}:{{ tpl .Values.pods.image.tag . }}"
         {{- if .Values.operator.extraEnvs -}}
         {{- toYaml .Values.operator.extraEnvs | nindent 10 }}
         {{- end }}

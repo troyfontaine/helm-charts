@@ -1,0 +1,12 @@
+---
+pre-commit:
+  parallel:
+  commands:
+    lint:
+      glob: "charts/**/Chart.{yaml,yml}"
+      run: |
+        FILE="{all_files}"
+        DIR="$(dirname ${FILE})"
+        pushd "${DIR}" || return
+        helm lint
+        popd || return
