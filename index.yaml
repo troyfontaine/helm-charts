@@ -3,6 +3,28 @@ entries:
   splunk-operator:
   - apiVersion: v2
     appVersion: 1.0.3
+    created: "2021-11-10T17:42:30.131851306Z"
+    description: A Helm chart for deploying the Splunk Operator
+    digest: 2db24be5f8172685e81fdebb7a0cbaff8de17aa63fe3c195d7e53fc99eb1808c
+    home: https://splunk.github.io/splunk-operator/
+    icon: https://upload.wikimedia.org/wikipedia/commons/f/f8/Splunk_logo.png
+    keywords:
+    - splunk
+    - operator
+    kubeVersion: '>=1.20.0-0'
+    maintainers:
+    - email: tfontaine@troyfontaine.com
+      name: troyfontaine
+    name: splunk-operator
+    sources:
+    - https://github.com/splunk/splunk-operator
+    - https://www.splunk.com
+    type: application
+    urls:
+    - https://github.com/troyfontaine/helm-charts/releases/download/splunk-operator-0.1.3/splunk-operator-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
+    appVersion: 1.0.3
     created: "2021-10-28T03:23:09.188918435Z"
     description: A Helm chart for deploying the Splunk Operator
     digest: 884133bed32b4b79493f99a3cf33c722cec519f5191817e20103b3506f06a90f
