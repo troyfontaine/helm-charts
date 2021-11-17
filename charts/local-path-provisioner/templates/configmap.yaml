@@ -13,6 +13,14 @@ data:
     {{ .Values.configmap.setup | nindent 4 }}
   teardown: |-
     {{ .Values.configmap.teardown | nindent 4 }}
-  helperPod.yaml: |-
-    {{ .Values.configmap.helperPod | nindent 4 }}
+  helperPod.yaml: |
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: helper-pod
+    spec:
+      containers:
+      - name: helper-pod
+        image: {{ .Values.helperImage.repository }}:{{ .Values.helperImage.tag }}
+        imagePullPolicy: IfNotPresent
 
