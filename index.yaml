@@ -1,5 +1,25 @@
 apiVersion: v1
 entries:
+  local-path-provisioner:
+  - apiVersion: v1
+    appVersion: v0.0.20
+    created: "2021-11-17T19:34:41.297958606Z"
+    description: Use HostPath for persistent local storage with Kubernetes
+    digest: 1e272feb0b2129fd14ce9947c825f00233a94630c5cbe26d8abc5461e2c690f0
+    home: https://github.com/rancher/local-path-provisioner
+    keywords:
+    - storage
+    - hostpath
+    kubeVersion: '>=1.12.0-r0'
+    maintainers:
+    - email: tfontaine@troyfontaine.com
+      name: troyfontaine
+    name: local-path-provisioner
+    sources:
+    - https://github.com/rancher/local-path-provisioner.git
+    urls:
+    - https://github.com/troyfontaine/helm-charts/releases/download/local-path-provisioner-0.0.20/local-path-provisioner-0.0.20.tgz
+    version: 0.0.20
   splunk-operator:
   - apiVersion: v2
     appVersion: 1.0.3
