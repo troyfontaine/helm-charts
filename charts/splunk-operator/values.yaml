@@ -26,6 +26,10 @@ pods:
 nameOverride: ""
 fullnameOverride: ""
 
+# Use when in a completely internet isolated environment when working with AWS
+# and relying on VPC Endpoints to access STS
+airgapped: ""
+
 serviceAccount:
   create: true
   name: "splunk-operator"
