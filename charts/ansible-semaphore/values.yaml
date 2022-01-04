@@ -1,0 +1,102 @@
+# Default values for ansible-semaphore.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+manualSecretName: ""
+semaphoreAdminName: admin
+semaphoreAdminEmail: admin@localhost
+semaphoreAdmin: admin
+
+semaphore:
+  image:
+    #repository: docker.io/ansiblesemaphore/semaphore
+    repository: docker.io/troyfontaine/semaphore
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+  resources: {}
+  containerPort: 3000
+  service:
+    type: ClusterIP
+    port: 3000
+  db_host: ""
+  db_pass: ""
+  db_user: "semaphore"
+  db: "semaphore"
+  playbook_path: /tmp/semaphore/
+
+database:
+  create: true
+  name: "semaphore-mysql"
+  image:
+    repository: mysql/mysql-server
+    pullPolicy: IfNotPresent
+    tag: "8.0.27-aarch64"
+  resources: {}
+  containerPort: 3306
+  service:
+    type: NodePort
+    port: 3306
+  storageClass: "local-path"
+  storageCapacity: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# Specify a name for a pre-existing secret to use
+secret:
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "{{ .Values.database.name }}-pv-claim"
+spec:
+  # {{- if .Values.database.storageClass }}
+  storageClassName: {{ .Values.database.storageClass }}
+  # {{- end }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "{{ .Values.database.storageCapacity | default "2Gi" }}"

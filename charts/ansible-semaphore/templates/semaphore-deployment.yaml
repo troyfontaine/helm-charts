@@ -1,0 +1,90 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ansible-semaphore.fullname" . }}
+  labels:
+    {{- include "ansible-semaphore.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "ansible-semaphore.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "ansible-semaphore.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "ansible-semaphore.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          env:
+            - name: SEMAPHORE_DB_USER
+              value: {{ .Values.semaphore.db_user }}
+            - name: SEMAPHORE_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ansible-semaphore.secretName" . }}
+                  key: dbPassword
+            - name: SEMAPHORE_DB_HOST
+              value: {{ .Values.semaphore.db_host | default (list ( .Values.database.name ) .Release.Namespace "svc.cluster.local" | join ".") }}
+            - name: SEMAPHORE_DB_PORT
+              value: "{{ .Values.database.service.port }}"
+            - name: SEMAPHORE_DB
+              value: {{ .Values.semaphore.db }}
+            - name: SEMAPHORE_PLAYBOOK_PATH
+              value: {{ .Values.semaphore.playbook_path }}
+            - name: SEMAPHORE_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ansible-semaphore.secretName" . }}
+                  key: semaphoreAdminPassword
+            - name: SEMAPHORE_ADMIN_NAME
+              value: {{ .Values.semaphoreAdminName }}
+            - name: SEMAPHORE_ADMIN_EMAIL
+              value: {{ .Values.semaphoreAdminEmail }}
+            - name: SEMAPHORE_ADMIN
+              value: {{ .Values.semaphoreAdmin }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.semaphore.image.repository }}:{{ .Values.semaphore.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.semaphore.image.pullPolicy }}
+          command: ["/bin/sh sleep 500s"]
+          ports:
+            - name: web
+              containerPort: {{ .Values.semaphore.containerPort }}
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: web
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: web
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

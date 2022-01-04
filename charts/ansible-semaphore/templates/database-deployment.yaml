@@ -1,0 +1,43 @@
+{{- if .Values.database.create -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.database.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.database.name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.database.name }}
+    spec:
+      containers:
+      - image: "{{ .Values.database.image.repository }}:{{ .Values.database.image.tag | default .Chart.AppVersion }}"
+        name: {{ .Values.database.name }}
+        env:
+        - name: MYSQL_RANDOM_ROOT_PASSWORD
+          value: 'yes'
+        - name: MYSQL_USER
+          value: semaphore
+        - name: MYSQL_DATABASE
+          value: {{ .Values.semaphore.db }}
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "ansible-semaphore.secretName" . }}
+              key: dbPassword
+        ports:
+          - containerPort: {{ .Values.database.containerPort }}
+            name: mysql
+    #     volumeMounts:
+    #       - name: mysql-persistent-storage
+    #         mountPath: /var/lib/mysql
+    #   volumes:
+    #     - name: mysql-persistent-storage
+    #       persistentVolumeClaim:
+    #         claimName: "{{ .Values.database.name }}-pv-claim"
+{{- end }}
