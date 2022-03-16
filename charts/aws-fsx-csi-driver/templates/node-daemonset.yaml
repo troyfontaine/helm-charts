@@ -59,7 +59,7 @@ spec:
               value: unix:/csi/csi.sock
             {{- with .Values.node.env }}
             {{- . | toYaml | nindent 12 }}
-            {{0 end }}
+            {{- end }}
           volumeMounts:
             - name: kubelet-dir
               mountPath: /var/lib/kubelet
@@ -97,9 +97,9 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
-            {{-with .Values.sidecar.nodeDriverRegistrar.env }}
+            {{- with .Values.sidecar.nodeDriverRegistrar.env }}
             {{- . | toYaml | nindent 12 }}
-            {{0 end }}
+            {{- end }}
           volumeMounts:
             - name: plugin-dir
               mountPath: /csi
@@ -116,9 +116,9 @@ spec:
             - --csi-address=/csi/csi.sock
             - --health-port=9810
           env:
-            {{-with .Values.sidecars.livenessProbe.env }}
+            {{- with .Values.sidecars.livenessProbe.env }}
             {{- . | toYaml | nindent 12 }}
-            {{0 end }}
+            {{- end }}
           volumeMounts:
             - mountPath: /csi
               name: plugin-dir

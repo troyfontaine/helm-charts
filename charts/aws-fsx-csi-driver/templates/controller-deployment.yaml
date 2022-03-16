@@ -64,9 +64,9 @@ spec:
             - name: AWS_REGION
               value: {{ . }}
             {{- end }}
-            {{-with .Values.controller.env }}
+            {{- with .Values.controller.env }}
             {{- . | toYaml | nindent 12 }}
-            {{0 end }}
+            {{- end }}
           volumeMounts:
             - name: socket-dir
               mountPath: /var/lib/csi/sockets/pluginproxy/
@@ -96,9 +96,9 @@ spec:
           env:
             - name: ADDRESS
               value: /var/lib/csi/sockets/pluginproxy/csi.sock
-            {{-with .Values.sidecars.provisioner.env }}
+            {{- with .Values.sidecars.provisioner.env }}
             {{- . | toYaml | nindent 12 }}
-            {{0 end }}
+            {{- end }}
           volumeMounts:
             - name: socket-dir
               mountPath: /var/lib/csi/sockets/pluginproxy/
@@ -115,9 +115,9 @@ spec:
           env:
             - name: ADDRESS
               value: /var/lib/csi/sockets/pluginproxy/csi.sock
-            {{-with .Values.sidecars.resizer.env }}
+            {{- with .Values.sidecars.resizer.env }}
             {{- . | toYaml | nindent 12 }}
-            {{0 end }}
+            {{- end }}
           volumeMounts:
             - name: socket-dir
               mountPath: /var/lib/csi/sockets/pluginproxy/
@@ -135,9 +135,9 @@ spec:
               mountPath: /csi
           {{- with default .Values.controller.resources .Values.sidecars.livenessProbe.resources }}
           env:
-            {{-with .Values.sidecars.livenessProbe.env }}
+            {{- with .Values.sidecars.livenessProbe.env }}
             {{- . | toYaml | nindent 12 }}
-            {{0 end }}
+            {{- end }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
