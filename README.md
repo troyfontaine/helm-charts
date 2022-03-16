@@ -1,6 +1,6 @@
 # Helm Charts
 
-A collection of customized helm charts.
+A collection of customized helm charts.  Adds support for additional functionaity in some cases, provides a helm chart where no official one exists in others.
 
 ## Usage
 
