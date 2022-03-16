@@ -5,14 +5,15 @@ pre-commit:
     lint:
       glob: "charts/**/Chart.{yaml,yml}"
       run: |
+        #!/usr/bin/env bash
         for FILE in {all_files}
         do
           echo "  *******************"
           DIR="$(dirname ${FILE})"
-          pushd "${DIR}" >> /dev/null || return
-          echo "  Linting $DIR"
+          bash -c "pushd \"${DIR}\" >> /dev/null || return
+          echo \"  Linting $DIR\"
           helm lint
-          popd >> /dev/null || return
+          popd >> /dev/null || return"
           echo "  *******************"
           echo "\n"
         done
